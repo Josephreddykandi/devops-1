@@ -1,0 +1,68 @@
+---------------------------- HOW TO SETUP TOMCAT IN DOCKER CONTAINER IN CENTOS -----------------------------
+
+1. First you need to open putty and login.
+
+2. Then to install docker if you try ($ sudo yum install -y docker) then it will say NO DOCKER PACKAGES. This means
+   you didnt store any docker.repo in yum repos. To check repositories in yum ($ cd /etc/yum.repos.d). You dont
+   find any Docker.repo in it. 
+
+3. So we can download directly by giving the following command ($ curl -fsSL https://get.docker.com/ | sh)
+   With this docker will be installed.
+
+4. We need to give the docker privileges to the ec2-user as follows ($ sudo usermod -aG docker ec2-user)
+   By creating this privilege, from next time if you run docker command you wont need to give sudo. 
+
+5. Now ($ sudo service docker start) will start the docker. After this you can pull the docker image from dockerhub.
+   For this ($ docker pull tomcat:8.0). If you want any specific version, you can give your version as before.
+
+6. To check the docker images ($ docker images)
+   To check the docker processes ($ docker ps )
+
+7. Docker will pull tomcat image and to run that image ($ docker run -d -p 9999:8080 tomcat:8.0)
+   Here 9999 is the port which i allocated for docker image
+        8080 is the prefixed port for that tomcat image
+        tomcat:8.0 is the image name you want to run
+
+8. Now you can check the running processes using ($ docker ps). 
+
+9. Now you can browse tomcat with the port you allocated. But, for tomcat there will be a problem logging in to 
+   manager app. So you need to mount volume  because vi editor wont work in docker to edit tomcat-users.xml file.
+
+10. So you need to create a dummy folder in root and mount the volume of that dummy folder with any folder inside 
+    docker container. 
+
+11. To mount volume you need to kill the running process. To do so ($ docker kill container id). Mounting volume 
+    in the sense running the process. So you need to kill the present running processes.
+
+12. To mount volume ($ docker run -d -p 9999:8080 -v /home/ec2-user/dummy:/usr/local/tomcat/temp tomcat:8.0)
+    Here -v is nothing but mounting volume
+         dummy is folder you created in root
+         /usr/local/tomcat/temp is the path of temp folder in docker container.
+
+13. Now you need to copy tomcat-user.xml(which will be in the tomcat installed in your ec2-user) to the dummy file
+    you created in the root. Now tomcat-users.xml will be in the temp folder inside the docker. To check that you 
+    need to go into docker ($ sudo exec -it containerid bash).
+
+14. You can get container id by ($ docker ps). After going in to container, move tomcat-user.xml from temp to conf.
+    You need to move it but not copy it. Because, if you move it , it will be replaced with the file in conf.
+
+15. After this you need to exit from the docker by simply typing ($ exit). Now you need to restart the container 
+    ($ docker restart containerid)
+
+16. After restarting, you can access manager app with the credentials in your tomcat-user.xml
+
+17. Done!
+
+------------------------------ SOME MORE COMMANDS USED IN DOCKER-------------------------------------
+
+$ (docker ps -a) To see the exited or dangled processes
+
+$ (docker rm $(docker ps -aq)  To kill the exited or dangled processes
+
+$ (docker rmi $(docker images -aq) To kill the dangled images
+
+$ (docker rmi imageid) To remove the selected image
+
+$ (docker rmi -f imageid) To force remove the selected image.
+    
+   
