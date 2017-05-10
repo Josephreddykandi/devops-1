@@ -48,8 +48,8 @@
 6. Here in it you must edit your security group and subnet ids and set scheme to --internet-facing and role to ecsServiceRole.
 
 7. After that, Create a job in Jenkins and select none in Source Code Management. now select Add BuildStep and select Execute shell. In that  add the following
-   (export AWS_ACCESS_KEY_ID=AKIAJOTVLRCYLR4I7M3A
-    export AWS_SECRET_ACCESS_KEY=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
+   (export AWS_ACCESS_KEY_ID=
+    export AWS_SECRET_ACCESS_KEY=
     export AWS_DEFAULT_REGION=us-west-2
 
     cd /var/lib/jenkins/
