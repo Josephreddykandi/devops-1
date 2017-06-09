@@ -20,4 +20,4 @@
 
 7. Open your branch and make any changes in your script and then commit. Now click new pull req and select base:master ... compare:branch and update pull req.
 
-8. Now open jenkins wait it will automatically build according to your goals and options.
+8. Now open jenkins, and wait untill the build automates according to your goals and options.
