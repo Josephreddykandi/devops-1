@@ -35,7 +35,7 @@
 
     aws ecs register-task-definition --family $FAMILYNAME --container-definitions "[{\"name\":\"$docker_container-$docker_env\",\"image\":\"$docker_container:$docker_image_version\",\"cpu\":512,\"memory\":512,\"essential\":true,\"portMappings\":[{\"containerPort\":$docker_port_app,\"hostPort\":$docker_port_host,\"protocol\":\"tcp\"}]}]"
 
-    aws elb create-load-balancer --load-balancer-name $LBNAME --listeners "Protocol=TCP,LoadBalancerPort=$docker_port_host,InstanceProtocol=TCP,InstancePort=$docker_port_host"  --subnets "subnet-6d49e124" "subnet-f879ef9f"  --security-groups "sg-5002e52b" --scheme "internet-facing"
+    aws elb create-load-balancer --load-balancer-name $LBNAME --listeners "Protocol=TCP,LoadBalancerPort=$docker_port_host,InstanceProtocol=TCP,InstancePort=$docker_port_host"  --subnets "subnet-6afa670d"   --security-groups "sg-d0e4f7ad" --scheme "internet-facing"
 
     aws elb create-load-balancer-listeners --load-balancer-name $LBNAME --listeners "Protocol=TCP,LoadBalancerPort=80,InstanceProtocol=TCP,InstancePort=$docker_port_host"
 
